@@ -1,0 +1,32 @@
+# Scientific Retrieval & Evidence-Grounded RAG Configuration
+
+dataset:
+  name: "BEIR-SciFact"
+  url: "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/scifact.zip"
+  upstream_md5: "5f7d1de60b170fc8027bb7898e2efca1"
+  data_dir: "data/raw/scifact"
+
+preprocessing:
+  sentences_per_chunk: 3
+  sentence_overlap: 1
+  include_title: true
+
+retrieval:
+  bm25:
+    k1: 1.5
+    b: 0.75
+  dense:
+    model_name_or_path: "BAAI/bge-small-en-v1.5"
+    device: "cpu"
+    batch_size: 64
+
+evaluation:
+  split: "test"
+  candidate_chunk_k: 50
+  target_doc_k: 20
+  metrics:
+    - "recall@5"
+    - "recall@10"
+    - "recall@20"
+    - "mrr@10"
+    - "ndcg@10"
